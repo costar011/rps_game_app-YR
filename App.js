@@ -17,7 +17,9 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.TopBox}>
         <TouchableOpacity>
-          <View style={styles.BtnBox}></View>
+          <View style={styles.BtnBox}>
+            <Text style={styles.Txt}>Start</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.DownBox}></View>
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: `center`,
     justifyContent: `center`,
 
-    backgroundColor: `#7cebe0`,
+    backgroundColor: `#9ca0a1`,
   },
 
   DownBox: {
@@ -45,19 +47,26 @@ const styles = StyleSheet.create({
     alignItems: `center`,
     justifyContent: `center`,
 
-    backgroundColor: `#16c9c3`,
+    backgroundColor: `#7a7a7a`,
   },
 
   BtnBox: {
     width: CURRENT_WIDTH / 2,
     height: 45,
-    backgroundColor: "#5148f7",
+    backgroundColor: "#5511d4",
     borderRadius: 5,
 
     alignItems: "center",
     justifyContent: "center",
 
     marginBottom: 50,
+  },
+
+  Txt: {
+    color: `#fff`,
+
+    fontSize: 30,
+    fontWeight: `700`,
   },
 });
 
