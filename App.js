@@ -22,7 +22,7 @@ const RPS_IMAGES = [
 const App = () => {
   const [tab, setTab] = useState(0);
   const [MeData, setmeData] = useState(`기다려주세요.`);
-  const [ComData, setcomDAta] = useState(`기다려주세요.`);
+  const [ComData, setcomData] = useState(`기다려주세요.`);
   const [resultText, setText] = useState(``);
   const [MeImage, setMeImage] = useState(``);
   const [ComImage, setComImage] = useState(``);
@@ -34,7 +34,7 @@ const App = () => {
 
     if (value === 0) {
       setmeData(`잠시만 기다려 주세요`);
-      setcomDAta(`잠시만 기다려 주세요`);
+      setcomData(`잠시만 기다려 주세요`);
       setText(``);
     }
 
@@ -49,7 +49,7 @@ const App = () => {
       const ComImage = RPS_IMAGES[rum2];
 
       setmeData(Me);
-      setcomDAta(Com);
+      setcomData(Com);
 
       setMeImage(MeImage);
       setComImage(ComImage);
@@ -90,7 +90,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.ingameArea}>
+      <View style={styles.Area}>
         {tab === 0 && (
           <TouchableOpacity
             style={styles.startBtn}
@@ -103,7 +103,7 @@ const App = () => {
           <View>
             <View style={styles.ingameTop}>
               <Image
-                style={styles.rocImage}
+                style={styles.rpsImg}
                 source={{
                   uri: MeImage,
                 }}
@@ -112,17 +112,17 @@ const App = () => {
             </View>
             <View style={styles.ingameMiddle}>
               <LinearGradient
-                colors={["#050982", "#4f6af0"]}
+                colors={["#9debf5", "#2ed1e6"]}
                 locations={[0.9, 0.1]}
                 style={styles.vsView}
                 start={[`left`, `right`]}
               >
-                <Text style={styles.vsText}>VS</Text>
+                <Text style={styles.vs}>VS</Text>
               </LinearGradient>
             </View>
-            <View style={styles.ingameBottom}>
+            <View style={styles.gameBottom}>
               <Image
-                style={styles.rocImage}
+                style={styles.rpsImg}
                 source={{
                   uri: ComImage,
                 }}
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  ingameArea: {
+  Area: {
     flex: 8,
     alignItems: "center",
     justifyContent: "center",
@@ -168,6 +168,71 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  startBtn: {
+    width: CURRENT_WIDTH / 2,
+    height: 45,
+    backgroundColor: "#43ded9",
+    borderRadius: 10,
+
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 50,
+  },
+
+  startBtnText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 25,
+  },
+
+  resultAreaTop: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  resultAreaBottom: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  ingameTop: {
+    flex: 4,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  ingameMiddle: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  gameBottom: {
+    flex: 4,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  vsView: {
+    width: CURRENT_WIDTH,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  vs: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#fff",
+  },
+
+  rpsImg: {
+    width: 150,
+    height: 150,
   },
 });
 
