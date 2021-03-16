@@ -5,13 +5,15 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+  Image,
   /* 현재 디바이스의 width 값 가져오기 - Dimensions */
 } from "react-native";
-
 import { LinearGradient } from "expo-linear-gradient";
 
 const CURRENT_WIDTH = Dimensions.get(`window`).width;
-const RPS_IMAGE = [
+
+const RPS_RANDOM = ["가위", "바위", "보"];
+const RPS_IMAGES = [
   "http://i.011st.com/cm_exhibition/2012/1501/mwevent/game/images/user_img_0.png",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEqumKKO3S5YxpDvwSclqci_cvGC1_HRKimg&usqp=CAU",
   "http://image.blog.livedoor.jp/deaiup/imgs/1/5/1506be2c.png",
@@ -19,98 +21,153 @@ const RPS_IMAGE = [
 
 const App = () => {
   const [tab, setTab] = useState(0);
-  const [MeData, setMeData] = useState(`잠시만 기다려주세요.`);
-  const [ComData, setComData] = useState(`잠시만 기다려주세요.`);
-  const [resultText, setValue] = useState(``);
-  const [meImage, setMeImage] = useState(``);
-  const [comImage, setComImage] = useState(``);
+  const [MeData, setmeData] = useState(`기다려주세요.`);
+  const [ComData, setcomDAta] = useState(`기다려주세요.`);
+  const [resultText, setText] = useState(``);
+  const [MeImage, setMeImage] = useState(``);
+  const [ComImage, setComImage] = useState(``);
 
   const RanDom = () => Math.floor(Math.random() * 3);
 
-  const StartBtnHandler = (value) => {
+  const _startButtonClickHandler = (value) => {
     setTab(value);
 
     if (value === 0) {
-      setMeData(`잠시만 기다려 주세요`);
-      setComData(`잠시만 기다려 주세요`);
-      setValue(``);
+      setmeData(`잠시만 기다려 주세요`);
+      setcomDAta(`잠시만 기다려 주세요`);
+      setText(``);
     }
 
     if (value === 1) {
-      const rum1 = StartBtnHandler();
-      const rum2 = StartBtnHandler();
+      const rum1 = RanDom();
+      const rum2 = RanDom();
 
-      const me = RPS_IMAGE[rum1];
-      const com = RPS_IMAGE[rum2];
+      const Me = RPS_RANDOM[rum1];
+      const Com = RPS_RANDOM[rum2];
 
-      const setMeImage = RPS_IMAGE[rum1];
-      const setComImage = RPS_IMAGE[rum2];
+      const MeImage = RPS_IMAGES[rum1];
+      const ComImage = RPS_IMAGES[rum2];
 
-      setMeData(me);
-      setComData(com);
+      setmeData(Me);
+      setcomDAta(Com);
+
+      setMeImage(MeImage);
+      setComImage(ComImage);
+
+      if (rum1 === rum2) {
+        setText("사용자와 컴퓨터는 비겼습니다.");
+        return;
+      }
+      if (rum1 === 0) {
+        if (rum2 === 1) {
+          setText("사용자는 컴퓨터에게 졌습니다");
+          return;
+        } else if (rum2 === 2) {
+          setText("사용자는 컴퓨터에게 이겼습니다.");
+          return;
+        }
+      }
+      if (rum1 === 1) {
+        if (rum2 === 0) {
+          setText("사용자는 컴퓨터에게 이겼습니다.");
+          return;
+        } else if (rum2 === 2) {
+          setText("사용자는 컴퓨터에게 졌습니다");
+          return;
+        }
+      }
+      if (rum1 === 2) {
+        if (rum2 === 0) {
+          setText("사용자는 컴퓨터에게 졌습니다");
+          return;
+        } else if (rum2 === 1) {
+          setText("사용자는 컴퓨터에게 이겼습니다.");
+          return;
+        }
+      }
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.TopBox}>
+      <View style={styles.ingameArea}>
         {tab === 0 && (
-          <TouchableOpacity onPressOut={() => StartBtnHandler(1)}>
-            <View style={styles.BtnBox}>
-              <Text style={styles.Txt}>START</Text>
-            </View>
+          <TouchableOpacity
+            style={styles.startBtn}
+            onPressOut={() => _startButtonClickHandler(1)}
+          >
+            <Text style={styles.startBtnText}>Start Game</Text>
           </TouchableOpacity>
         )}
-      </View>
-      <View style={styles.DownBox}>
-        <TouchableOpacity>
-          <View style={styles.BtnBox}>
-            <Text style={styles.Txt}>AGAIN</Text>
+        {tab === 1 && (
+          <View>
+            <View style={styles.ingameTop}>
+              <Image
+                style={styles.rocImage}
+                source={{
+                  uri: MeImage,
+                }}
+              />
+              <Text>{MeData}</Text>
+            </View>
+            <View style={styles.ingameMiddle}>
+              <LinearGradient
+                colors={["#050982", "#4f6af0"]}
+                locations={[0.9, 0.1]}
+                style={styles.vsView}
+                start={[`left`, `right`]}
+              >
+                <Text style={styles.vsText}>VS</Text>
+              </LinearGradient>
+            </View>
+            <View style={styles.ingameBottom}>
+              <Image
+                style={styles.rocImage}
+                source={{
+                  uri: ComImage,
+                }}
+              />
+              <Text>{ComData}</Text>
+            </View>
           </View>
-        </TouchableOpacity>
+        )}
+      </View>
+      <View style={styles.resultArea}>
+        <View style={styles.resultAreaTop}>
+          <Text>{resultText}</Text>
+        </View>
+        <View style={styles.resultAreaBottom}>
+          {tab === 1 && (
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPressOut={() => _startButtonClickHandler(0)}
+            >
+              <Text style={styles.startBtnText}>RESTART!</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
 };
 
+/* 삼항연산자 -> (조건식) ? true일 때 : false일 때 */
+/* javascript optional -> (조건식) ? true라면 && ~~~ */
+/* 속도는 삼항연산자가 더 빠름 */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  TopBox: {
+  ingameArea: {
     flex: 8,
-
-    alignItems: `center`,
-    justifyContent: `center`,
-  },
-
-  DownBox: {
-    flex: 2,
-
-    alignItems: `center`,
-    justifyContent: `center`,
-
-    backgroundColor: `#7a7a7a`,
-  },
-
-  BtnBox: {
-    width: CURRENT_WIDTH / 2,
-    height: 45,
-    backgroundColor: "#5511d4",
-    borderRadius: 5,
-
     alignItems: "center",
     justifyContent: "center",
-
-    marginBottom: 50,
   },
-
-  Txt: {
-    color: `#fff`,
-
-    fontSize: 30,
-    fontWeight: `700`,
+  resultArea: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
